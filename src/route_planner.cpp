@@ -14,10 +14,10 @@ RoutePlanner::RoutePlanner(RouteModel &model, float start_x, float start_y, floa
     m_Model = model;
 
     RouteModel::Node* start = new RouteModel::Node;
-    *start = model.FindClosestNode(start_x, start_y);
+    start = &model.FindClosestNode(start_x, start_y);
     start_node = start;
     RouteModel::Node* end = new RouteModel::Node;
-    *end = model.FindClosestNode(end_x, end_y);
+    end = &model.FindClosestNode(end_x, end_y);
     end_node = end;
 }
 
@@ -101,8 +101,8 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
     std::reverse(path_found.begin(), path_found.end());
 
     distance *= m_Model.MetricScale(); // Multiply the distance by the scale of the map to get meters.
-    std::cout << "Distance = " << distance << "\n";
-    std::cout << "Path = " << path_found.size() << "\n";
+    // std::cout << "Distance = " << distance << "\n";
+    // std::cout << "Path = " << path_found.size() << "\n";
     return path_found;
 
 }
@@ -127,10 +127,10 @@ void RoutePlanner::AStarSearch() {
         // std::cout << "After adding size = " << open_list.size() << "\n";
         current_node = NextNode();
         if (current_node->x == end_node->x && current_node->y == end_node->y) {
-            std::cout << "123 Path size = " << m_Model.path.size() << "\n";
+            // std::cout << "123 Path size = " << m_Model.path.size() << "\n";
             m_Model.path = ConstructFinalPath(current_node);
             return;
         }
     }
-    std::cout << "128 Path size = " << m_Model.path.size() << "\n";
+    // std::cout << "128 Path size = " << m_Model.path.size() << "\n";
 }
